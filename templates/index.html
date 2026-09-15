@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Safety Guard</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f6f7fb;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .card {
+    background: #fff;
+    margin-top: 60px;
+    width: 100%;
+    max-width: 560px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .header {
+    padding: 28px 32px 18px;
+  }
+  .header h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    color: #1a1a1a;
+  }
+  .header p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+  }
+  .body {
+    padding: 0 32px 28px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+  }
+  button {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px;
+    background: #e8641c;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: #cf5615; }
+  button:disabled { background: #ccc; cursor: not-allowed; }
+
+  .result {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 10px;
+    display: none;
+  }
+  .result.safe { background: #e8f7ee; border: 1px solid #b7e6c6; }
+  .result.scam { background: #fdeceb; border: 1px solid #f3b8b3; }
+  .verdict {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .verdict.safe-text { color: #1c7a3c; }
+  .verdict.scam-text { color: #c0392b; }
+  .meta { font-size: 13px; color: #444; line-height: 1.5; }
+
+  .orange-bar {
+    height: 10px;
+    background: linear-gradient(90deg, #e8641c, #f2994a);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>🛡️ Online Safety Guard</h1>
+      <p>Paste a message below to check if it's a scam or safe.</p>
+    </div>
+    <div class="body">
+      <textarea id="message" placeholder="e.g. Dear customer, your account will be blocked in 24 hrs. Click here to verify: bit.ly/xyz123"></textarea>
+      <button id="checkBtn" onclick="checkMessage()">Check Message</button>
+
+      <div id="result" class="result">
+        <div id="verdictText" class="verdict"></div>
+        <div id="metaText" class="meta"></div>
+      </div>
+    </div>
+    <div class="orange-bar"></div>
+  </div>
+
+<script>
+async function checkMessage() {
+  const message = document.getElementById('message').value.trim();
+  const btn = document.getElementById('checkBtn');
+  const resultBox = document.getElementById('result');
+  const verdictText = document.getElementById('verdictText');
+  const metaText = document.getElementById('metaText');
+
+  if (!message) {
+    alert("Please paste a message first.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Analyzing...";
+
+  try {
+    const res = await fetch('/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    const data = await res.json();
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    resultBox.style.display = 'block';
+    resultBox.className = 'result ' + (data.verdict === 'Scam' ? 'scam' : 'safe');
+    verdictText.className = 'verdict ' + (data.verdict === 'Scam' ? 'scam-text' : 'safe-text');
+    verdictText.textContent = data.verdict === 'Scam'
+      ? '⚠️ Suspicious — likely a Scam'
+      : '✅ Looks Safe';
+
+    metaText.innerHTML =
+      `Confidence: <b>${(data.confidence * 100).toFixed(1)}%</b><br>` +
+      `Reason: ${data.reason}`;
+
+  } catch (err) {
+    alert("Something went wrong. Is the server running?");
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Check Message";
+  }
+}
+</script>
+</body>
+</html>
