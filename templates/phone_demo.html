@@ -2,49 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Online Safety Guard — Live Phone Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#b00020">
+<title>Online Safety Guard 4.0 — Mobile 24/7 Threat Protection</title>
 <style>
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
-    background: #eef0f5;
-    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0b0f19;
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     padding: 30px 16px;
   }
-  h2 { color: #333; margin-bottom: 4px; }
-  .subtitle { color: #777; font-size: 14px; margin-bottom: 24px; }
+  h2 { color: #fff; margin-bottom: 4px; font-size: 22px; font-weight: 700; }
+  .subtitle { color: #9ca3af; font-size: 13.5px; margin-bottom: 24px; text-align: center; }
 
   /* Phone frame */
   .phone {
     width: 360px;
     height: 700px;
-    background: #000;
-    border-radius: 42px;
-    padding: 14px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    background: #1a1a1a;
+    border: 3px solid #333;
+    border-radius: 44px;
+    padding: 12px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(232, 100, 28, 0.15);
     position: relative;
   }
   .screen {
     width: 100%;
     height: 100%;
     background: #f4f4f6;
-    border-radius: 30px;
+    border-radius: 32px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
   .notch {
     position: absolute;
-    top: 14px; left: 50%;
+    top: 12px; left: 50%;
     transform: translateX(-50%);
-    width: 140px; height: 22px;
-    background: #000;
+    width: 140px; height: 24px;
+    background: #1a1a1a;
     border-radius: 0 0 16px 16px;
-    z-index: 5;
+    z-index: 50;
   }
   .status-bar {
     height: 40px;
@@ -55,6 +60,7 @@
     font-size: 12px;
     font-weight: 600;
     color: #111;
+    z-index: 10;
   }
   .app-header {
     background: #fff;
@@ -67,12 +73,13 @@
   .avatar {
     width: 38px; height: 38px;
     border-radius: 50%;
-    background: #d8dce5;
+    background: #e8641c;
+    color: #fff;
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+    font-size: 18px;
   }
-  .app-header .name { font-weight: 600; font-size: 15px; color: #111; }
-  .app-header .sub { font-size: 11px; color: #999; }
+  .app-header .name { font-weight: 700; font-size: 15px; color: #111; }
+  .app-header .sub { font-size: 11px; color: #10b981; font-weight: 600; }
 
   .messages {
     flex: 1;
@@ -80,13 +87,13 @@
     padding: 14px 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .bubble-wrap {
     display: flex;
     flex-direction: column;
-    max-width: 82%;
+    max-width: 86%;
     align-self: flex-start;
     opacity: 0;
     transform: translateY(8px);
@@ -98,14 +105,14 @@
 
   .bubble {
     background: #fff;
-    padding: 10px 13px;
-    border-radius: 14px;
+    padding: 11px 14px;
+    border-radius: 16px;
     border-top-left-radius: 4px;
     font-size: 13.5px;
     line-height: 1.4;
     color: #222;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    word-break: break-word;
   }
 
   .bubble.scam {
@@ -116,8 +123,8 @@
   }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    75% { transform: translateX(3px); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
   }
 
   .alert-tag {
@@ -129,15 +136,9 @@
     color: #fff;
     font-size: 11.5px;
     font-weight: 700;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 8px;
     width: fit-content;
-    opacity: 0;
-    animation: popIn 0.3s ease 0.15s forwards;
-  }
-  @keyframes popIn {
-    from { opacity: 0; transform: scale(0.85); }
-    to { opacity: 1; transform: scale(1); }
   }
 
   .safe-tag {
@@ -146,17 +147,17 @@
     align-items: center;
     gap: 5px;
     color: #2e8b57;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
-    opacity: 0;
-    animation: popIn 0.3s ease 0.15s forwards;
   }
 
-  .analyzing {
+  .lang-box {
+    margin-top: 6px;
     font-size: 11px;
-    color: #999;
-    margin-top: 5px;
-    font-style: italic;
+    color: #1d4e89;
+    background: rgba(29,78,137,0.08);
+    padding: 6px 9px;
+    border-radius: 6px;
   }
 
   .reason-box {
@@ -164,95 +165,149 @@
     font-size: 11px;
     color: #7a1f18;
     background: rgba(224,69,58,0.08);
-    padding: 5px 8px;
+    padding: 6px 9px;
     border-radius: 6px;
-    opacity: 0;
-    animation: popIn 0.3s ease 0.3s forwards;
   }
 
+  /* Mobile Red Alert Banner Overlay inside Phone Screen */
+  .mobile-alert-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(180, 0, 0, 0.95);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+    animation: pulseBg 1s infinite alternate;
+  }
+  @keyframes pulseBg {
+    from { background: rgba(160, 0, 0, 0.95); }
+    to { background: rgba(220, 0, 0, 0.98); }
+  }
+
+  .mobile-alert-overlay h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 12px 0 8px;
+    text-transform: uppercase;
+  }
+
+  .mobile-alert-overlay p {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    color: #ffe4e4;
+  }
+
+  .btn-mobile-safe {
+    padding: 12px 20px;
+    background: #fff;
+    color: #b91c1c;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+
+  /* Controls */
   .controls {
-    margin-top: 20px;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 360px;
   }
   .controls input {
-    padding: 10px 12px;
+    padding: 12px 14px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #333;
+    background: #111827;
+    color: #fff;
     font-size: 14px;
   }
   .controls .row { display: flex; gap: 8px; }
   .controls button {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 10px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     font-size: 13.5px;
   }
   .btn-primary { background: #e8641c; color: #fff; }
-  .btn-secondary { background: #fff; color: #333; border: 1px solid #ccc !important; }
-  .btn-restart { background: #333; color: #fff; }
+  .btn-restart { background: #1f293d; color: #fff; }
 </style>
 </head>
 <body>
 
-  <h2>🛡️ Online Safety Guard</h2>
-  <div class="subtitle">Live demo — messages get flagged the moment they arrive</div>
+  <h2>🛡️ Online Safety Guard 4.0</h2>
+  <div class="subtitle">24/7 Mobile Screen & Messaging Protection Simulator</div>
 
   <div class="phone">
     <div class="notch"></div>
     <div class="screen">
       <div class="status-bar">
         <span>9:41</span>
-        <span>●●●●  📶  🔋</span>
+        <span>●●●● 📶 🔋</span>
       </div>
       <div class="app-header">
-        <div class="avatar">👤</div>
+        <div class="avatar">🛡️</div>
         <div>
-          <div class="name">Unknown Sender</div>
-          <div class="sub">Messages</div>
+          <div class="name">24/7 Auto-Guard Shield</div>
+          <div class="sub">Active Real-Time Monitoring</div>
         </div>
       </div>
       <div class="messages" id="messages"></div>
+
+      <!-- Mobile Red Alert Screen -->
+      <div id="mobileAlert" class="mobile-alert-overlay">
+        <div style="font-size: 48px;">🚨</div>
+        <h3>EMERGENCY RED ALERT</h3>
+        <p id="mobileAlertReason">Dangerous Phishing Link or Scam Page Detected!</p>
+        <button class="btn-mobile-safe" onclick="dismissMobileAlert()">🛡️ SAFE EXIT (GO BACK)</button>
+      </div>
     </div>
   </div>
 
   <div class="controls">
     <div class="row">
-      <button class="btn-primary" onclick="playDemo()">▶ Auto-play demo messages</button>
+      <button class="btn-primary" onclick="playDemo()">▶ Run 24/7 Protection Demo</button>
       <button class="btn-restart" onclick="resetChat()">Reset</button>
     </div>
-    <input id="customMsg" placeholder="Or type your own message to simulate...">
-    <button class="btn-secondary" onclick="sendCustom()">Send this message</button>
+    <input id="customMsg" placeholder="Or type any message in Hindi, Hinglish, Punjabi, etc...">
+    <button class="btn-primary" style="background:#2563eb;" onclick="sendCustom()">Scan Message</button>
   </div>
 
 <script>
 const messagesEl = document.getElementById('messages');
 
 const demoScript = [
-  "Hey! Are we still on for lunch tomorrow?",
-  "Congratulations! You have WON Rs 50,000. Click here to claim now: bit.ly/claim-prize",
-  "Dear customer, your bank account will be BLOCKED in 24 hrs. Verify immediately: http://secure-bank-verify.com",
-  "Can you send me the notes from today's class?",
-  "URGENT: Your OTP request failed. Re-enter your card details here to continue: bit.ly/otp-fix"
+  "Hey! Are we still meeting for lunch today?",
+  "आपका KYC अपडेट नहीं हुआ है, अभी लिंक पर क्लिक करें वरना खाता बंद हो जाएगा: bit.ly/kyc-now",
+  "ਤੁਹਾਡਾ ਬੈਂਕ ਖਾਤਾ ਬੰਦ ਹੋ ਜਾਵੇਗਾ। ਹੁਣੇ KYC ਅਪਡੇਟ ਕਰੋ: bit.ly/kyc-update",
+  "Click to log in to your SBI account: http://sbi-bank-verify.xyz/login",
+  "Can you share the project slides when ready?"
 ];
 
 async function addMessage(text) {
   const wrap = document.createElement('div');
   wrap.className = 'bubble-wrap';
   wrap.innerHTML = `
-    <div class="bubble" id="bubble-${Date.now()}">${escapeHtml(text)}</div>
-    <div class="analyzing">🔍 Scanning message...</div>
+    <div class="bubble">${escapeHtml(text)}</div>
+    <div style="font-size:11px; color:#6b7280; margin-top:4px; font-style:italic;">🔍 24/7 Scanning...</div>
   `;
   messagesEl.appendChild(wrap);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
   const bubble = wrap.querySelector('.bubble');
-  const analyzingTag = wrap.querySelector('.analyzing');
+  const analyzingTag = wrap.querySelector('div:last-child');
 
   try {
     const res = await fetch('/predict', {
@@ -263,27 +318,70 @@ async function addMessage(text) {
     const data = await res.json();
     analyzingTag.remove();
 
+    if (data.was_translated) {
+      const lang = document.createElement('div');
+      lang.className = 'lang-box';
+      lang.innerHTML = `🌐 <b>${escapeHtml(data.detected_language)}</b> → English:<br>${escapeHtml(data.translated_text)}`;
+      wrap.appendChild(lang);
+    }
+
     if (data.verdict === 'Scam') {
       bubble.classList.add('scam');
       const tag = document.createElement('div');
       tag.className = 'alert-tag';
-      tag.innerHTML = `⚠️ SCAM — Don't open this`;
+      tag.innerHTML = `⚠️ SCAM BLOCKED`;
       wrap.appendChild(tag);
 
       const reason = document.createElement('div');
       reason.className = 'reason-box';
-      reason.textContent = `Why: ${data.reason} (${(data.confidence*100).toFixed(0)}% confidence)`;
+      reason.textContent = `Why: ${data.reason}`;
       wrap.appendChild(reason);
+
+      if (data.is_red_alert) {
+        triggerMobileRedAlert(data);
+      }
     } else {
       const tag = document.createElement('div');
       tag.className = 'safe-tag';
-      tag.innerHTML = `✅ Looks safe`;
+      tag.innerHTML = `✅ Verified Safe`;
       wrap.appendChild(tag);
     }
   } catch (err) {
-    analyzingTag.textContent = "⚠️ Couldn't reach server";
+    console.error(err);
+    analyzingTag.textContent = "⚠️ Server offline";
   }
   messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function triggerMobileRedAlert(data) {
+  const overlay = document.getElementById('mobileAlert');
+  document.getElementById('mobileAlertReason').textContent = data.reason;
+  overlay.style.display = 'flex';
+
+  if (data.spoken_warning) {
+    playDualVoiceAlert(data.spoken_warning);
+  }
+}
+
+function dismissMobileAlert() {
+  document.getElementById('mobileAlert').style.display = 'none';
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+function playDualVoiceAlert(warningObj) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  const localSpeech = new SpeechSynthesisUtterance(warningObj.text_local || "Warning! Scam detected.");
+  localSpeech.lang = warningObj.speech_lang || 'hi-IN';
+  localSpeech.rate = 0.95;
+
+  const englishSpeech = new SpeechSynthesisUtterance(warningObj.text_english || "Emergency warning! Phishing detected.");
+  englishSpeech.lang = 'en-US';
+  englishSpeech.rate = 0.95;
+
+  localSpeech.onend = () => setTimeout(() => window.speechSynthesis.speak(englishSpeech), 300);
+  setTimeout(() => window.speechSynthesis.speak(localSpeech), 400);
 }
 
 function escapeHtml(str) {
@@ -296,12 +394,13 @@ async function playDemo() {
   resetChat();
   for (const msg of demoScript) {
     await addMessage(msg);
-    await new Promise(r => setTimeout(r, 1400));
+    await new Promise(r => setTimeout(r, 1600));
   }
 }
 
 function resetChat() {
   messagesEl.innerHTML = '';
+  dismissMobileAlert();
 }
 
 async function sendCustom() {

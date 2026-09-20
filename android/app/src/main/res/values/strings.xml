@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScamShield</string>
+    <string name="accessibility_service_description">ScamShield 24/7 Cybersecurity Guard: Automatically detects scam text, phishing URLs, and financial fraud across WhatsApp, Telegram, LinkedIn, Naukri, Gmail, Chrome, and SMS to protect you from cyber attacks.</string>
+</resources>

@@ -2,125 +2,701 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Online Safety Guard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Safety Guard 4.0 — 24/7 Automated Threat Shield</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
+  :root {
+    --bg-dark: #090d16;
+    --card-bg: #111827;
+    --card-border: #1f293d;
+    --accent-red: #ff3b30;
+    --accent-orange: #ff9500;
+    --accent-green: #34c759;
+    --accent-blue: #007aff;
+    --accent-purple: #af52de;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f6f7fb;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    font-family: 'Outfit', -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
   }
-  .card {
-    background: #fff;
-    margin-top: 60px;
-    width: 100%;
-    max-width: 560px;
-    border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    overflow: hidden;
+
+  /* Header Bar */
+  header {
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
-  .header {
-    padding: 28px 32px 18px;
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
-  .header h1 {
-    margin: 0 0 4px;
-    font-size: 22px;
-    color: #1a1a1a;
-  }
-  .header p {
-    margin: 0;
-    color: #666;
-    font-size: 14px;
-  }
-  .body {
-    padding: 0 32px 28px;
-  }
-  textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 12px;
+
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e8641c, #ff3b30);
     border-radius: 10px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    resize: vertical;
-    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 15px rgba(255, 59, 48, 0.35);
   }
-  button {
-    margin-top: 14px;
+
+  .brand-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #ffffff, #9ca3af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(52, 199, 89, 0.12);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+    color: var(--accent-green);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-green);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.5; }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Main Container */
+  .container {
+    max-width: 1200px;
     width: 100%;
+    margin: 32px auto;
+    padding: 0 24px;
+    flex: 1;
+  }
+
+  .hero-text {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .hero-text h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .hero-text p {
+    color: var(--text-muted);
+    font-size: 16px;
+  }
+
+  /* Tabs */
+  .tab-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    background: rgba(17, 24, 39, 0.6);
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+  }
+
+  .tab-btn {
+    flex: 1;
     padding: 12px;
-    background: #e8641c;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .tab-btn:hover:not(.active) {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  /* Card Grid */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 14px 16px;
+    background: #0b0f19;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    color: var(--text-main);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #e8641c, #ff3b30);
     color: #fff;
     border: none;
     border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(232, 100, 28, 0.35);
+    transition: all 0.2s;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 100, 28, 0.5);
+  }
+
+  /* Result Box */
+  .result-box {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    background: #0b0f19;
+    border: 1px solid var(--card-border);
+  }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .verdict-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .verdict-badge.safe {
+    background: rgba(52, 199, 89, 0.15);
+    color: var(--accent-green);
+    border: 1px solid rgba(52, 199, 89, 0.3);
+  }
+
+  .verdict-badge.scam {
+    background: rgba(255, 59, 48, 0.15);
+    color: var(--accent-red);
+    border: 1px solid rgba(255, 59, 48, 0.35);
+  }
+
+  .confidence-score {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .meta-list {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #e5e7eb;
+  }
+
+  /* EMERGENCY RED ALERT OVERLAY */
+  .red-alert-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 0, 0, 0.94);
+    backdrop-filter: blur(16px);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    animation: alertPulse 1.2s infinite alternate;
+  }
+
+  @keyframes alertPulse {
+    from { box-shadow: inset 0 0 50px rgba(255, 0, 0, 0.4); }
+    to { box-shadow: inset 0 0 150px rgba(255, 0, 0, 0.85); }
+  }
+
+  .alert-card {
+    background: #1a0505;
+    border: 2px solid var(--accent-red);
+    border-radius: 24px;
+    max-width: 640px;
+    width: 100%;
+    padding: 36px 28px;
+    box-shadow: 0 0 80px rgba(255, 59, 48, 0.6);
+  }
+
+  .alert-icon {
+    font-size: 64px;
+    margin-bottom: 12px;
+    animation: shakeIcon 0.5s infinite alternate;
+  }
+
+  @keyframes shakeIcon {
+    from { transform: scale(1) rotate(-5deg); }
+    to { transform: scale(1.15) rotate(5deg); }
+  }
+
+  .alert-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ff4d4d;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .alert-msg {
+    font-size: 16px;
+    color: #fca5a5;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .alert-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-goback {
+    padding: 14px 28px;
+    background: var(--accent-green);
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(52, 199, 89, 0.4);
+  }
+
+  .btn-explain {
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
   }
-  button:hover { background: #cf5615; }
-  button:disabled { background: #ccc; cursor: not-allowed; }
 
-  .result {
-    margin-top: 20px;
-    padding: 16px 18px;
-    border-radius: 10px;
+  /* REMEDIATION POST-MORTEM MODAL */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
     display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
   }
-  .result.safe { background: #e8f7ee; border: 1px solid #b7e6c6; }
-  .result.scam { background: #fdeceb; border: 1px solid #f3b8b3; }
-  .verdict {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .verdict.safe-text { color: #1c7a3c; }
-  .verdict.scam-text { color: #c0392b; }
-  .meta { font-size: 13px; color: #444; line-height: 1.5; }
 
-  .orange-bar {
-    height: 10px;
-    background: linear-gradient(90deg, #e8641c, #f2994a);
+  .modal-card {
+    background: #111827;
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 14px;
+  }
+
+  .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-orange);
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .section-box {
+    margin-bottom: 20px;
+    background: #0b0f19;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .solution-list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .solution-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.08);
+    font-size: 14px;
+    line-height: 1.5;
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="header">
-      <h1>🛡️ Online Safety Guard</h1>
-      <p>Paste a message below to check if it's a scam or safe.</p>
-    </div>
-    <div class="body">
-      <textarea id="message" placeholder="e.g. Dear customer, your account will be blocked in 24 hrs. Click here to verify: bit.ly/xyz123"></textarea>
-      <button id="checkBtn" onclick="checkMessage()">Check Message</button>
 
-      <div id="result" class="result">
-        <div id="verdictText" class="verdict"></div>
-        <div id="metaText" class="meta"></div>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">🛡️</div>
+      <div>
+        <div class="brand-title">Online Safety Guard 4.0</div>
+        <div style="font-size: 12px; color: var(--text-muted);">24/7 Autonomous Threat Defense Suite</div>
       </div>
     </div>
-    <div class="orange-bar"></div>
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <div class="live-badge">
+        <div class="pulse-dot"></div>
+        24/7 AUTO-GUARD ACTIVE
+      </div>
+      <div class="nav-links">
+        <a href="/demo" class="nav-btn">📱 Open Phone Demo</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="hero-text">
+      <h1>AI Threat Interception Dashboard</h1>
+      <p>Automated 24/7 protection against phishing websites, malicious URLs, scam SMS, and multi-lingual fraud.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-page')">🌐 Web Page / DOM Scanner</button>
+      <button class="tab-btn" onclick="switchTab('tab-msg')">💬 Message / SMS Guard</button>
+      <button class="tab-btn" onclick="switchTab('tab-url')">🔗 URL Reputation Audit</button>
+      <button class="tab-btn" onclick="switchTab('tab-sim')">⚡ 24/7 Auto-Guard Simulator</button>
+    </div>
+
+    <!-- Tab 1: Web Page / DOM Scanner -->
+    <div id="tab-page" class="card-grid">
+      <div class="card">
+        <div class="card-title">🌐 Web Page & DOM Security Inspection</div>
+        <div class="form-group">
+          <label>Web Page URL</label>
+          <input type="text" id="pageUrl" placeholder="e.g. http://sbi-bank-verify.xyz/account/login">
+        </div>
+        <div class="form-group">
+          <label>Web Page Title</label>
+          <input type="text" id="pageTitle" placeholder="e.g. SBI Netbanking Login & Verification Portal">
+        </div>
+        <div class="form-group">
+          <label>HTML / Body Text Sample</label>
+          <textarea id="pageHtml" placeholder="e.g. Dear customer, enter your netbanking user ID and password to avoid immediate account blockage within 24 hours."></textarea>
+        </div>
+        <div style="display: flex; gap: 16px; margin-bottom: 18px;">
+          <label><input type="checkbox" id="hasPassword" checked> Form contains Password Field</label>
+          <label><input type="checkbox" id="hasCard"> Form contains Banking/Card Field</label>
+        </div>
+        <button class="btn-submit" onclick="scanWebpage()">Scan Web Page Now</button>
+
+        <div id="pageResult" class="result-box"></div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Message & SMS Guard -->
+    <div id="tab-msg" class="card-grid" style="display: none;">
+      <div class="card">
+        <div class="card-title">💬 SMS & Multi-Lingual Message Inspector</div>
+        <div class="form-group">
+          <label>Paste Message (Any language e.g. Hindi, Hinglish, Punjabi, Tamil, English)</label>
+          <textarea id="msgText" placeholder="e.g. आपका KYC अपडेट नहीं हुआ है, अभी लिंक पर क्लिक करें वरना खाता बंद हो जाएगा: bit.ly/kyc-now"></textarea>
+        </div>
+        <button class="btn-submit" onclick="scanMessage()">Inspect Message</button>
+
+        <div id="msgResult" class="result-box"></div>
+      </div>
+    </div>
+
+    <!-- Tab 3: URL Reputation Audit -->
+    <div id="tab-url" class="card-grid" style="display: none;">
+      <div class="card">
+        <div class="card-title">🔗 URL Typosquatting & Reputation Audit</div>
+        <div class="form-group">
+          <label>Target URL to audit</label>
+          <input type="text" id="auditUrl" placeholder="e.g. http://sbi-card-verify.xyz/login">
+        </div>
+        <button class="btn-submit" onclick="auditUrl()">Audit URL Reputation</button>
+
+        <div id="urlResult" class="result-box"></div>
+      </div>
+    </div>
+
+    <!-- Tab 4: 24/7 Auto-Guard Simulator -->
+    <div id="tab-sim" class="card-grid" style="display: none;">
+      <div class="card">
+        <div class="card-title">⚡ 24/7 Automated Web Guard Simulation</div>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+          Simulates real-time background interception when a user accidentally visits phishing sites or receives scam links while browsing on phone or desktop.
+        </p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn-submit" style="flex: 1; background: #c0392b;" onclick="simulateVisit('sbi-scam')">🚨 Visit Fake SBI Phishing Page</button>
+          <button class="btn-submit" style="flex: 1; background: #d35400;" onclick="simulateVisit('kyc-scam')">🚨 Visit Fake KYC SMS Link</button>
+          <button class="btn-submit" style="flex: 1; background: #27ae60;" onclick="simulateVisit('safe-site')">✅ Visit Official Wikipedia</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EMERGENCY RED ALERT OVERLAY -->
+  <div id="redAlertOverlay" class="red-alert-overlay">
+    <div class="alert-card">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-title">EMERGENCY CYBER THREAT BLOCKED</div>
+      <div id="alertMsg" class="alert-msg">
+        Malicious phishing webpage or scam link detected. Automatically intercepted by 24/7 Online Safety Guard!
+      </div>
+      <div class="alert-actions">
+        <button class="btn-goback" onclick="goBackToSafety()">🛡️ GO BACK TO SAFETY</button>
+        <button class="btn-explain" onclick="openRemediationModal()">🔍 AI SECURITY FIXES & SOLUTIONS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMEDIATION POST-MORTEM MODAL -->
+  <div id="remediationModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div id="modalThreatTitle" class="modal-title">Threat Security Post-Mortem</div>
+        <button class="close-btn" onclick="closeRemediationModal()">&times;</button>
+      </div>
+
+      <div class="section-box">
+        <div class="section-title">1. Threat Summary</div>
+        <div id="modalThreatSummary" style="font-size: 14px; line-height: 1.5; color: #e5e7eb;"></div>
+      </div>
+
+      <div class="section-box">
+        <div class="section-title">2. Identified Vulnerabilities & Security Gaps</div>
+        <ul id="modalVulnerabilities" class="solution-list"></ul>
+      </div>
+
+      <div class="section-box">
+        <div class="section-title">3. Step-by-Step Actionable Solutions</div>
+        <ul id="modalRemediationSteps" class="solution-list"></ul>
+      </div>
+
+      <button class="btn-goback" style="width: 100%; margin-top: 14px;" onclick="closeRemediationModal()">Acknowledge & Close</button>
+    </div>
   </div>
 
 <script>
-async function checkMessage() {
-  const message = document.getElementById('message').value.trim();
-  const btn = document.getElementById('checkBtn');
-  const resultBox = document.getElementById('result');
-  const verdictText = document.getElementById('verdictText');
-  const metaText = document.getElementById('metaText');
+let lastAnalysisResult = null;
 
-  if (!message) {
-    alert("Please paste a message first.");
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.card-grid').forEach(grid => grid.style.display = 'none');
+
+  event.target.classList.add('active');
+  document.getElementById(tabId).style.display = 'grid';
+}
+
+async function scanWebpage() {
+  const url = document.getElementById('pageUrl').value.trim();
+  const title = document.getElementById('pageTitle').value.trim();
+  const html_content = document.getElementById('pageHtml').value.trim();
+  const has_password_field = document.getElementById('hasPassword').checked;
+  const has_card_field = document.getElementById('hasCard').checked;
+
+  if (!url && !html_content) {
+    alert("Please enter a URL or HTML content sample.");
     return;
   }
 
-  btn.disabled = true;
-  btn.textContent = "Analyzing...";
+  try {
+    const res = await fetch('/analyze-page', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url, title, html_content,
+        has_password_field, has_card_field,
+        is_http: url.startsWith('http://')
+      })
+    });
+    const data = await res.json();
+    lastAnalysisResult = data;
+    renderResult('pageResult', data);
+
+    if (data.is_red_alert) {
+      triggerRedAlert(data);
+    }
+  } catch (err) {
+    alert("Failed to reach security engine server.");
+    console.error(err);
+  }
+}
+
+async function scanMessage() {
+  const message = document.getElementById('msgText').value.trim();
+  if (!message) return alert("Please enter a message.");
 
   try {
     const res = await fetch('/predict', {
@@ -129,30 +705,176 @@ async function checkMessage() {
       body: JSON.stringify({ message })
     });
     const data = await res.json();
+    lastAnalysisResult = data;
+    renderResult('msgResult', data);
 
-    if (data.error) {
-      alert(data.error);
-      return;
+    if (data.is_red_alert) {
+      triggerRedAlert(data);
     }
-
-    resultBox.style.display = 'block';
-    resultBox.className = 'result ' + (data.verdict === 'Scam' ? 'scam' : 'safe');
-    verdictText.className = 'verdict ' + (data.verdict === 'Scam' ? 'scam-text' : 'safe-text');
-    verdictText.textContent = data.verdict === 'Scam'
-      ? '⚠️ Suspicious — likely a Scam'
-      : '✅ Looks Safe';
-
-    metaText.innerHTML =
-      `Confidence: <b>${(data.confidence * 100).toFixed(1)}%</b><br>` +
-      `Reason: ${data.reason}`;
-
   } catch (err) {
-    alert("Something went wrong. Is the server running?");
+    alert("Server error.");
     console.error(err);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Check Message";
   }
+}
+
+async function auditUrl() {
+  const url = document.getElementById('auditUrl').value.trim();
+  if (!url) return alert("Please enter a URL.");
+
+  try {
+    const res = await fetch('/check-url', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const data = await res.json();
+
+    const box = document.getElementById('urlResult');
+    box.style.display = 'block';
+    box.innerHTML = `
+      <div class="result-header">
+        <span class="verdict-badge ${data.is_dangerous ? 'scam' : 'safe'}">
+          ${data.is_dangerous ? '🚨 High Risk / Dangerous URL' : '✅ URL Appears Clean'}
+        </span>
+        <span class="confidence-score">Risk Score: ${(data.max_risk_score * 100).toFixed(0)}%</span>
+      </div>
+      <div class="meta-list">
+        <b>Shortened Link:</b> ${data.is_shortened ? 'Yes (Hidden destination)' : 'No'}<br>
+        <b>Brand Spoofing / Lookalike:</b> ${data.is_lookalike ? 'Yes (Impersonation detected)' : 'No'}<br>
+        <b>Risk Diagnostics:</b> ${data.risk_note || 'No malicious indicators'}
+      </div>
+    `;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function simulateVisit(type) {
+  if (type === 'sbi-scam') {
+    document.getElementById('pageUrl').value = 'http://sbi-bank-verify.xyz/account/login';
+    document.getElementById('pageTitle').value = 'SBI Netbanking Security Login';
+    document.getElementById('pageHtml').value = 'Urgent: Enter SBI netbanking password & OTP to prevent account deactivation.';
+    document.getElementById('hasPassword').checked = true;
+    scanWebpage();
+  } else if (type === 'kyc-scam') {
+    document.getElementById('msgText').value = 'आपका KYC अपडेट नहीं हुआ है, अभी लिंक पर क्लिक करें वरना खाता बंद हो जाएगा: bit.ly/kyc-now';
+    switchTab('tab-msg');
+    scanMessage();
+  } else {
+    document.getElementById('pageUrl').value = 'https://en.wikipedia.org/wiki/Cybersecurity';
+    document.getElementById('pageTitle').value = 'Cybersecurity - Wikipedia';
+    document.getElementById('pageHtml').value = 'Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks.';
+    document.getElementById('hasPassword').checked = false;
+    scanWebpage();
+  }
+}
+
+function renderResult(containerId, data) {
+  const box = document.getElementById(containerId);
+  box.style.display = 'block';
+
+  const isScam = data.verdict === 'Scam';
+  box.innerHTML = `
+    <div class="result-header">
+      <span class="verdict-badge ${isScam ? 'scam' : 'safe'}">
+        ${isScam ? '🚨 Threat Detected: Scam / Phishing' : '✅ Safe & Verified'}
+      </span>
+      <span class="confidence-score">Confidence: ${(data.confidence * 100).toFixed(1)}%</span>
+    </div>
+    <div class="meta-list">
+      <b>Language:</b> ${data.detected_language} ${data.was_translated ? `(Translated: "${data.translated_text}")` : ''}<br>
+      <b>Reason:</b> ${data.reason}<br>
+      ${data.top_words && data.top_words.length ? `<b>Trigger Words:</b> ${data.top_words.join(', ')}` : ''}
+    </div>
+    ${isScam ? `<button class="btn-goback" style="margin-top:14px; width:100%;" onclick="openRemediationModal()">🔍 View AI Security Solution & Fixes</button>` : ''}
+  `;
+}
+
+// Emergency Red Alert System
+function triggerRedAlert(data) {
+  const overlay = document.getElementById('redAlertOverlay');
+  const alertMsg = document.getElementById('alertMsg');
+
+  alertMsg.innerHTML = `
+    <b>Threat Type:</b> ${data.remediation?.threat_title || 'Scam & Phishing Hazard'}<br>
+    <b>Reason:</b> ${data.reason}
+  `;
+
+  overlay.style.display = 'flex';
+
+  // Play High Siren Oscillator Sound
+  playAudioSiren();
+
+  // Play Multi-Lingual Dual Spoken Voice Warning
+  if (data.spoken_warning) {
+    playDualVoiceAlert(data.spoken_warning);
+  }
+}
+
+function playAudioSiren() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.5);
+
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.6);
+  } catch (e) {
+    console.error("Audio siren error:", e);
+  }
+}
+
+function playDualVoiceAlert(warningObj) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  // 1. Spoken Warning in Local Language
+  const localSpeech = new SpeechSynthesisUtterance(warningObj.text_local);
+  localSpeech.lang = warningObj.speech_lang || 'hi-IN';
+  localSpeech.rate = 0.95;
+
+  // 2. Spoken Warning in English
+  const englishSpeech = new SpeechSynthesisUtterance(warningObj.text_english);
+  englishSpeech.lang = 'en-US';
+  englishSpeech.rate = 0.95;
+
+  localSpeech.onend = function() {
+    setTimeout(() => window.speechSynthesis.speak(englishSpeech), 300);
+  };
+
+  setTimeout(() => window.speechSynthesis.speak(localSpeech), 500);
+}
+
+function goBackToSafety() {
+  document.getElementById('redAlertOverlay').style.display = 'none';
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  alert("🛡️ Safely returned! 24/7 Security Guard actively protecting your sessions.");
+}
+
+function openRemediationModal() {
+  if (!lastAnalysisResult || !lastAnalysisResult.remediation) return;
+
+  const rem = lastAnalysisResult.remediation;
+  document.getElementById('modalThreatTitle').textContent = rem.threat_title || "Security Threat Report";
+  document.getElementById('modalThreatSummary').textContent = rem.threat_summary || "Dangerous phishing threat detected.";
+
+  const vulnsEl = document.getElementById('modalVulnerabilities');
+  vulnsEl.innerHTML = (rem.vulnerabilities || []).map(v => `<li>⚠️ ${v}</li>`).join('');
+
+  const stepsEl = document.getElementById('modalRemediationSteps');
+  stepsEl.innerHTML = (rem.remediation_steps || []).map(s => `<li>✅ ${s}</li>`).join('');
+
+  document.getElementById('remediationModal').style.display = 'flex';
+}
+
+function closeRemediationModal() {
+  document.getElementById('remediationModal').style.display = 'none';
 }
 </script>
 </body>
